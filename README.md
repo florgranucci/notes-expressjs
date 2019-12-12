@@ -45,8 +45,6 @@ Generalmente, vamos a recibir _requests_ con nuestra aplicación Express (_back-
 
 ## Routing
 
-[EJERCICIO CON NODE]
-
 El _routing_ se refiere a cómo los _endpoints_ de nuestra aplicación responden a los _requests_ del cliente. 
 
 Ver [Basic routing](https://expressjs.com/en/starter/basic-routing.html)
@@ -54,6 +52,16 @@ Ver [Basic routing](https://expressjs.com/en/starter/basic-routing.html)
 Definimos _rutas_ usando los métodos que nos provee el objeto que genera Express, que se corresponden con **métodos HTTP**: por ejemplo podemos usar `app.get()` para manejar requests de tipo `GET` y `app.post()` para requests de tipo `POST`. 
 
 Ver [todos los métodos HTTP disponibles](https://expressjs.com/en/4x/api.html#app.METHOD)
+
+### URL Parameters
+
+Podemos proveer diferentes respuestas a través de una misma ruta si utilizamos parámetros. Vamos a obtener estos parámetros a través de la URL. Esto se conoce como _dynamic routing_.
+
+Estos parámetros se almacenan en el objeto `params`, el cual existe dentro del objeto `request`.
+
+Para especificar qué parte de una URL será un parámetro, agregamos el caracter `:` y luego le damos un nombre. Esto se va a mapear a una propiedad con ese nombre dentro del objeto `params`. 
+
+Es importante notar que los parámetros URL son siempre **strings**.
 
 ## Middleware
 
@@ -85,4 +93,5 @@ Una aplicación Express puede utiilizar los siguientes tipos de _middleware_:
 ### Ejercicios
 
 1. Crear un servidor en Express, que escuche en el puerto `8080` (leerlo del archivo `.env`) y responda con un `'Hola Mundo!'` cuando reciba un request a la ruta `/`. En el caso de que no haya un puerto seteado en `.env`, la aplicación debe escuchar en el puerto `8001`. Cuando el servidor esté levantado y corriendo, la aplicación debe loguear por consola `Express app listening on port ${PORT}!`, donde `PORT` es el puerto seteado
-2. Rehacer el [ejercicio 3](https://github.com/undefinedschool/notes-nodejs#ejercicios-1) utilizando Express. Usar [`pug` como _template engine_](http://expressjs.com/en/guide/using-template-engines.html) para retornar las diferentes _vistas HTML_ de nuestra aplicación.
+2. Modificar el ejercicio anterior, para que al recibir un request a la ruta `/salute/{name}`, la aplicación responda con un `'Hola {name}!'`, donde `name` es un parámetro que recibe por URL 
+3. Rehacer el [ejercicio 3](https://github.com/undefinedschool/notes-nodejs#ejercicios-1) utilizando Express. Usar [`pug` como _template engine_](http://expressjs.com/en/guide/using-template-engines.html) para retornar las diferentes _vistas HTML_ de nuestra aplicación.
