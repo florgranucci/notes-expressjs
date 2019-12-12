@@ -6,11 +6,6 @@
 
 ## Contenido
 
-- [File System](#file-system)
-  - [Ejercicios](#ejercicios)
-- [HTTP (Server y requests)](#http-server-y-requests)
-  - [Ejercicios](#ejercicios-1)
-
 ---
 
 ## Documentación
@@ -37,7 +32,8 @@ De todos los frameworks que existen para Node, Express es el más popular
 - Nos permite construir aplicaciones web con Node de una forma mucho más **simple**
 - Es **muy liviano y rápido**
 - **Minimalista:** tenemos control total sobre cómo diseñar la aplicación, manejar los _requests_, _responses_
-- Reduce la cantidad de código necesaria y nos abstrae de mucha de la complejidad que tenemos al utilizar el módulo `HTTP`.
+- Reduce la cantidad de código necesaria y nos abstrae de mucha de la complejidad que tenemos al utilizar el módulo `HTTP`
+- Tiene una _API_ muy simple y _expresiva_
 
 ## Usos
 
