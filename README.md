@@ -13,6 +13,7 @@
 - [Usos](#usos)
 - [Routing](#routing)
   - [Router](#router)
+  - [Rutas](#rutas)
   - [URL Parameters](#url-parameters)
 - [Middleware](#middleware)
   - [Tipos de middleware](#tipos-de-middleware)
@@ -69,11 +70,15 @@ Hacer que diferentes _requests HTTP_ apunten a diferentes partes del código de 
 
 - Ver [Basic routing](https://expressjs.com/en/starter/basic-routing.html)
 
+### Router
+
 Para una aplicación muy simple, alcanza con agregar las rutas en condicionales dentro del _callback_ que recibe `createServer` en Node, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Es por esto que la lógica de _routing_ de las aplicaciones web suele separarse en otro módulo.
 
 A esta parte del código encargada del _routing_, se la conoce como **router**.
 
 Express incluye el objeto [`router`](http://expressjs.com/en/4x/api.html#router).
+
+### Rutas
 
 Definimos _rutas_ usando los métodos que nos provee el objeto que genera Express, que se corresponden con **métodos HTTP**: por ejemplo podemos usar `app.get()` para manejar requests de tipo `GET` y `app.post()` para requests de tipo `POST`. 
 
