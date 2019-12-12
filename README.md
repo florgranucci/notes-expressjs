@@ -45,9 +45,21 @@ Generalmente, vamos a recibir _requests_ con nuestra aplicación Express (_back-
 
 ## Routing
 
-El _routing_ se refiere a cómo los _endpoints_ de nuestra aplicación responden a los _requests_ del cliente. 
+Dependiendo de en qué URL se realizar el _request_, debemos responder de una forma distinta, es decir, los _endpoints_ de nuestra aplicación deben reaccionar de diferentes maneras a los _requests_ del cliente.
 
-Ver [Basic routing](https://expressjs.com/en/starter/basic-routing.html)
+For a very simple application, you could do this directly within the callback function onRequest().
+But as I said, let’s add a bit more abstraction in order to make our example application a bit more
+interesting.
+
+Hacer que diferentes _requests HTTP_ apunten a diferentes partes del código de nuestra aplicación es lo que se conoce como **routing**. 
+
+- Ver [Basic routing](https://expressjs.com/en/starter/basic-routing.html)
+
+Para una aplicación muy simple, alcanza con agregar las rutas en condicionales dentro del _callback_ que recibe `createServer` en Node, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Es por esto que la lógica de _routing_ de las aplicaciones web suele separarse en otro módulo.
+
+A esta parte del código encargada del _routing_, se la conoce como **router**.
+
+Express incluye el objeto [`router`](http://expressjs.com/en/4x/api.html#router).
 
 Definimos _rutas_ usando los métodos que nos provee el objeto que genera Express, que se corresponden con **métodos HTTP**: por ejemplo podemos usar `app.get()` para manejar requests de tipo `GET` y `app.post()` para requests de tipo `POST`. 
 
