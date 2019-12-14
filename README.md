@@ -64,17 +64,13 @@ Generalmente, vamos a recibir _requests_ con nuestra aplicación Express (_back-
 
 Dependiendo de en qué URL se realizar el _request_, debemos responder de una forma distinta, es decir, los _endpoints_ de nuestra aplicación deben reaccionar de diferentes maneras a los _requests_ del cliente.
 
-For a very simple application, you could do this directly within the callback function onRequest().
-But as I said, let’s add a bit more abstraction in order to make our example application a bit more
-interesting.
-
 Hacer que diferentes _requests HTTP_ apunten a diferentes partes del código de nuestra aplicación es lo que se conoce como **routing**. 
 
 - Ver [Basic routing](https://expressjs.com/en/starter/basic-routing.html)
 
 ### Router
 
-Para una aplicación muy simple, alcanza con agregar las rutas en condicionales dentro del _callback_ que recibe `createServer` en Node, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Es por esto que la lógica de _routing_ de las aplicaciones web suele separarse en otro módulo.
+Para una aplicación muy simple, alcanza con agregar las rutas en condicionales dentro del _callback_ que recibe `createServer` en Node y modularizar esta función, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Es por esto que la lógica de _routing_ de las aplicaciones web suele separarse en otro módulo.
 
 A esta parte del código encargada del _routing_, se la conoce como **router**.
 
@@ -88,7 +84,7 @@ Ver [todos los métodos HTTP disponibles](https://expressjs.com/en/4x/api.html#a
 
 ### URL Parameters
 
-Podemos proveer diferentes respuestas a través de una misma ruta si utilizamos parámetros. Vamos a obtener estos parámetros a través de la URL. Esto se conoce como _dynamic routing_.
+Podemos proveer diferentes respuestas a través de una misma ruta si utilizamos parámetros. Vamos a obtener estos parámetros a través de la URL. Esto se conoce como **_dynamic routing_** (ruteo dinámico).
 
 Estos parámetros se almacenan en el objeto `params`, el cual existe dentro del objeto `request`.
 
