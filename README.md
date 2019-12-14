@@ -90,7 +90,7 @@ Estos parámetros se almacenan en el objeto `params`, el cual existe dentro del 
 
 Para especificar qué parte de una URL será un parámetro, agregamos el caracter `:` y luego le damos un nombre. Esto se va a mapear a una propiedad con ese nombre dentro del objeto `params`. 
 
-Es importante notar que los parámetros URL son siempre **strings**.
+**Es importante notar que los parámetros URL son siempre `strings`**.
 
 ### ⚠️ El orden en el que declaramos las rutas importa
 
