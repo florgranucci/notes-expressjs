@@ -84,7 +84,7 @@ Ver [todos los métodos HTTP disponibles](https://expressjs.com/en/4x/api.html#a
 
 ### URL Parameters
 
-Podemos proveer diferentes respuestas a través de una misma ruta si utilizamos parámetros. Vamos a obtener estos parámetros a través de la URL. Esto se conoce como **_dynamic routing_** (ruteo dinámico).
+Podemos proveer diferentes respuestas a través de una misma ruta si utilizamos parámetros. Vamos a obtener estos parámetros a través de la URL. Esto se conoce como **_dynamic routing_** (ruteo dinámico). Por el contrario, las rutas que no tienen parámetros son _rutas estáticas_.
 
 Estos parámetros se almacenan en el objeto `params`, el cual existe dentro del objeto `request`.
 
