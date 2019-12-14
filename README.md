@@ -41,16 +41,17 @@ npm install express
 
 Es un _framework_ para desarrollar aplicaciones web (_server-side_) con _Node_, _minimalista_ y _no opinionado_. Esto último significa que no asume que vayamos a construir nuestras aplicaciones de alguna forma en particular, cómo manejar los _requests_ o generar los _responses_, etc, en ese sentido, mantenemos el control.
 
-De todos los frameworks que existen para Node, Express es el más popular
-
 ## Ventajas sobre usar utilizar Node (`http`)
 
 - Express está **construido sobre el módulo `http` de Node**, por lo que básicamente funciona como una _API_ que **simplifica y aumenta la funcionalidad que este módulo nos provee**.
 - Nos permite construir aplicaciones web con Node de una forma mucho más **simple**
 - Es **muy liviano y rápido**
-- **Minimalista:** tenemos control total sobre cómo diseñar la aplicación, manejar los _requests_, _responses_
+- **Minimalista:** hace muy pocas cosas, se enfoca más bien en reducir el _boilerplate_ y las partes más repetitivas y tediosas del código en Node (_routing_, _headers_, _cerrar conexiones_, servir archivos estáticos, etc)
+- **No opinionado:** tenemos control total sobre cómo diseñar la aplicación, qué librerías y _middlewares_ utilizar, cómo manejar los _requests_, _responses_, etc
 - Reduce la cantidad de código necesaria y nos abstrae de mucha de la complejidad que tenemos al utilizar el módulo `HTTP`
 - Tiene una _API_ muy simple y _expresiva_
+- **Middleware:** funciones que nos van a permitir interceptar y manipular _requests_ antes de hacer cualquier otra cosa
+- Express **es el framework más popular** para desarrollar aplicaciones web con Node
 
 ## Usos
 
