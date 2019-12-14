@@ -92,6 +92,10 @@ Para especificar qué parte de una URL será un parámetro, agregamos el caracte
 
 Es importante notar que los parámetros URL son siempre **strings**.
 
+### ⚠️ El orden en el que declaramos las rutas importa
+
+[DESPUES DESARROLLO]
+
 ## Middleware
 
 Las funciones middleware... **son funciones** que tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (generalmente identificada con una variable llamada _next_) en el ciclo request-response de nuestra aplicación.
