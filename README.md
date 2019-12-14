@@ -29,7 +29,9 @@
 - [Guía oficial y conceptos](https://expressjs.com/en/guide/routing.html)
 - [Express API](https://expressjs.com/en/5x/api.html)
 
-## Instalación
+## Instalación   
+
+_Express_ es paquete de Node, por lo que se instala con `npm` como cualquier otra dependencia de nuestro proyecto
 
 ```js
 npm install express
