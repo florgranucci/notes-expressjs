@@ -77,6 +77,8 @@ A esta parte del código encargada del _routing_, se la conoce como **router**.
 
 Express incluye el objeto [`router`](http://expressjs.com/en/4x/api.html#router).
 
+**Nota:** el uso del _router_ que nos provee Express es **opcional**, podemos seguir manejando el routing con Node o usar otro _router engine_ (buscar en NPM). El router de Express es bastante minimal y **nos permite separar la configuración y la lógica de la aplicación del manejo del routing**. 
+
 ### Rutas
 
 Definimos _rutas_ usando los métodos que nos provee el objeto que genera Express, que se corresponden con **métodos HTTP**: por ejemplo podemos usar `app.get()` para manejar requests de tipo `GET` y `app.post()` para requests de tipo `POST`. 
