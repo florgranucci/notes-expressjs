@@ -46,7 +46,7 @@ Es un _framework_ para desarrollar aplicaciones web (_server-side_) con _Node_, 
 - Express está **construido sobre el módulo `http` de Node**, por lo que básicamente funciona como una _API_ que **simplifica y aumenta la funcionalidad que este módulo nos provee**.
 - Nos permite construir aplicaciones web con Node de una forma mucho más **simple**
 - Es **muy liviano y rápido**
-- **Minimalista:** hace muy pocas cosas, se enfoca más bien en reducir el _boilerplate_ y las partes más repetitivas y tediosas del código en Node (setear _headers_, _cerrar conexiones_, servir archivos estáticos, simplifica mucho el _routing_, etc)
+- **Minimalista:** hace muy pocas cosas, se enfoca más bien en reducir el _boilerplate_ y las partes más repetitivas y tediosas del código en Node (setear _headers_, MIME types, _cerrar conexiones_, servir archivos estáticos, simplifica mucho el _routing_, etc)
 - **No opinionado:** tenemos control total sobre cómo diseñar la aplicación, qué librerías y _middlewares_ utilizar, cómo manejar los _requests_, _responses_, etc
 - Reduce la cantidad de código necesaria y nos abstrae de mucha de la complejidad que tenemos al utilizar el módulo `HTTP`
 - Tiene una _API_ muy simple y _expresiva_
@@ -93,6 +93,13 @@ const PORT = 8080;
 app
   .get('/', (req, res) => res.send('Hola Mundo!'))
   .listen(PORT, () => console.log(`Express app listening on port ${PORT}!`));
+```
+
+También existe el método `.all`
+
+```js
+// '*' es una ruta comodín, cualquier request a cualquier ruta que hagamos va a caer acá
+app.all('*', (req, res) => res.send('Hello'));
 ```
 
 Ver [todos los métodos HTTP disponibles](https://expressjs.com/en/4x/api.html#app.METHOD)
