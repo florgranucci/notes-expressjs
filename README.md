@@ -130,17 +130,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 ```
 
-4. Mover toda la configuración de nuestro servidor (por ejemplo el puerto) a un módulo `config.js` e importarla en `server.js`
-
-```js
-//config.js
-const config = {
-  PORT: process.env.PORT
-};
-
-module.exports = config;
-```
-
 :warning: **Nota**: el archivo `.env` no debe comitearse, agregarlo al `.gitignore`
 
 ### Ejercicios
