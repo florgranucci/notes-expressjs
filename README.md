@@ -144,7 +144,7 @@ dotenv.config();
 
 Luego accederemos a las variables definidas en el archivo `.env` a través de `process.env`. Por ejemplo
 
-```
+```js
 // .env
 PORT=8080
 ```
