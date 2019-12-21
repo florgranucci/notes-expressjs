@@ -83,6 +83,18 @@ Express incluye el objeto [`router`](http://expressjs.com/en/4x/api.html#router)
 
 Definimos _rutas_ usando los métodos que nos provee el objeto que genera Express, que se corresponden con **métodos HTTP**: por ejemplo podemos usar `app.get()` para manejar requests de tipo `GET` y `app.post()` para requests de tipo `POST`. 
 
+**Nota:** los métodos de `app` pueden encadenarse
+
+```js
+const express = require('express');
+const app = express();
+const PORT = 8080;
+
+app
+  .get('/', (req, res) => res.send('Hola Mundo!'))
+  .listen(PORT, () => console.log(`Express app listening on port ${PORT}!`));
+```
+
 Ver [todos los métodos HTTP disponibles](https://expressjs.com/en/4x/api.html#app.METHOD)
 
 ### URL Parameters
