@@ -124,7 +124,24 @@ Una aplicación Express puede utiilizar los siguientes tipos de _middleware_:
 1. Crear un archivo `.env`. En este archivo vamos a setear las _variables de entorno_ de nuestro proyecto. 
 2. Instalar y utilizar `nodemon` para correr nuestras aplicaciones, con el script `dev` del `package.json`
 3. Instalar y utilizar [`dotenv`](https://www.npmjs.com/package/dotenv) para leer _variables de entorno_ de un archivo `.env`
+
+```js
+const dotenv = require('dotenv');
+dotenv.config();
+```
+
 4. Mover toda la configuración de nuestro servidor (por ejemplo el puerto) a un módulo `config.js` e importarla en `server.js`
+
+```js
+//config.js
+const config = {
+  PORT: process.env.PORT
+};
+
+module.exports = config;
+```
+
+:warning: **Nota**: el archivo `.env` no debe comitearse, agregarlo al `.gitignore`
 
 ### Ejercicios
 
