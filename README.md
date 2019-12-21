@@ -142,6 +142,18 @@ const dotenv = require('dotenv');
 dotenv.config();
 ```
 
+Luego accederemos a las variables definidas en el archivo `.env` a través de `process.env`. Por ejemplo
+
+```
+// .env
+PORT=8080
+```
+
+```js
+// server.js
+const { PORT } = process.env;
+```
+
 :warning: **Nota**: el archivo `.env` no debe comitearse, agregarlo al `.gitignore`
 
 ### Ejercicios
