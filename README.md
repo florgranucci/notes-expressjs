@@ -95,7 +95,7 @@ app
   .listen(PORT, () => console.log(`Express app listening on port ${PORT}!`));
 ```
 
-También existe el método `.all`
+También existe el método `.all`, que va a aceptar cualquier tipo de _request_
 
 ```js
 // '*' es una ruta comodín, cualquier request a cualquier ruta que hagamos va a caer acá
