@@ -108,11 +108,24 @@ Ver [todos los métodos HTTP disponibles](https://expressjs.com/en/4x/api.html#a
 
 Podemos proveer diferentes respuestas a través de una misma ruta si utilizamos parámetros. Vamos a obtener estos parámetros a través de la URL. Esto se conoce como **_dynamic routing_** (ruteo dinámico). Por el contrario, las rutas que no tienen parámetros son _rutas estáticas_.
 
-Estos parámetros se almacenan en el objeto `params`, el cual existe dentro del objeto `request`.
+#### `req.params`
+
+Estos parámetros se almacenan en el objeto `params`, el cual existe dentro del objeto `request`.  Por ejemplo, si queremos acceder al parámetro `color` y utilizarlo en la respuesta, podemos hacer lo siguiente:
+
+```js
+app.get('/favorites/:color', (req, res) => {
+  const { color } = req.params;
+  res.send(`${color} es tu color favorito!`);
+});
+```
 
 Para especificar qué parte de una URL será un parámetro, agregamos el caracter `:` y luego le damos un nombre. Esto se va a mapear a una propiedad con ese nombre dentro del objeto `params`. 
 
-**Es importante notar que los parámetros URL son siempre `strings`**.
+#### `req.query`
+
+[DESPUES DESARROLLO]
+
+**Es importante notar que los parámetros recibidos por URL son siempre `strings`**.
 
 ### ⚠️ El orden en el que declaramos las rutas importa
 
