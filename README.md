@@ -119,7 +119,20 @@ app.get('/favorites/:color', (req, res) => {
 });
 ```
 
-Para especificar qué parte de una URL será un parámetro, agregamos el caracter `:` y luego le damos un nombre. Esto se va a mapear a una propiedad con ese nombre dentro del objeto `params`. 
+Para especificar qué parte de una URL será un parámetro, agregamos el caracter `:` y luego le damos un nombre. Este valor se va a mapear a una propiedad con ese nombre dentro del objeto `params`. 
+
+**Podemos tener múltiples parámetros en una misma URL**. Por ejemplo:
+
+```js
+// Route path
+/users/:userId/books/:bookId
+// Request URL
+http://localhost:3000/users/34/books/8989
+
+req.params: { "userId": "34", "bookId": "8989" }
+```
+
+Para más info, ver [Route parameters](http://expressjs.com/en/guide/routing.html#route-parameters)
 
 #### `req.query`
 
