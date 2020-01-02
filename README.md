@@ -63,6 +63,8 @@ Generalmente, vamos a recibir _requests_ con nuestra aplicación Express (_back-
 
 ## Hola Mundo
 
+Escribir el siguiente código en un archivo `index.js`
+
 ```js
 const express = require('express');
 const app = express();
@@ -72,6 +74,8 @@ const PORT = 8080;
 app.get('/', (req, res) => res.send('Hello World!'));
 app.listen(PORT, () => console.log('Server listening on http://${HOSTNAME}:${PORT}...'));
 ```
+
+Luego, ejecutarlo con `node index.js`. ¡Ahora podemos entrar a `localhost:8080` en nuestro navegador y ver la respuesta del servidor! :rocket:
 
 ## Inicialización: ¿qué es `app`?
 
