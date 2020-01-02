@@ -156,6 +156,14 @@ El método setea el `Content-Type` según el tipo de parámetro que reciba:
 - si le pasamos un _string_, `text/html`
 - si recibe un objeto/array, `application/json` (y parsea el parámetro como `JSON`)
 
+### 404
+
+En el caso de recibir un request a una ruta inexistente, Express va a generar una respuesta automática de 404, del estilo
+
+```
+Cannot GET /undefined/route/
+```
+
 #### JSON
 
 Podemos responder con un `JSON` utilizando el método `Response.json()`. Este método acepta un objeto/array y se encarga de convertirlo a `JSON` (a través de `JSON.stringify()`), antes de enviarlo
