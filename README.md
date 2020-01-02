@@ -102,8 +102,11 @@ app.listen(PORT);
 
 ### Request
 
-[EN DESARROLLO]
+Para cada _request_ tenemos que definir:
 
+1. Verbo HTTP
+2. Ruta
+3. Callback
 
 ### Verbos HTTP
 
@@ -113,10 +116,32 @@ Podemos recibir [diferentes tipos de _requests_](https://developer.mozilla.org/e
 - `POST`: enviar info
 - `PUT`: actualizar info
 - `DELETE`: eliminar info
+- etc
+
+```js
+app.get('/', (req, res) => console.log('Give me more chocolate!'));
+app.post('/', (req, res) => console.log('I'm posting something! :)'));
+app.put('/', (req, res) => console.log('Update that!'));
+app.delete('/', (req, res) => console.log('DELETE THIS #RIP'));
+```
+
+Cada uno de estos métodos recibe como parámetros 
+
+1. una ruta específica (en el ejemplo `'/'`)
+2. un _callback_, que será ejecutado cuando recibamos un request del tipo definido por el verbo HTTP (`get`, `post`, `put`, `delete`, etc), en esa ruta.
+
+Express también posee un método [`app.all()`](http://expressjs.com/en/5x/api.html#app.all), que _matchea_ con cualquier tipode verbo HTTP.
 
 ### CRUD
 
 Estos métodos se corresponden con los necesarios en [aplicaciones CRUD](https://rapidapi.com/blog/api-glossary/crud/).
+
+| CRUD       | Verbo HTTP |
+|------------|------------|
+| **C**reate | `post`     | 
+| **R**ead   | `get`      |
+| **U**pdate | `put`      |
+| **D**elete | `delete`   |
 
 ### Response
 
