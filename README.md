@@ -172,6 +172,12 @@ Podemos responder con un `JSON` utilizando el método `Response.json()`. Este m�
 app.get('/', (req, res) => res.json({salute: 'Hello World!'}));
 ```
 
+#### `.send()` vs `.json()`
+
+Estos métodos son muy similares (`Response.json()` invoca a `Response.send()` al final).
+
+**La principal diferencia aparece cuando pasamos valores que no so objetos** (tipos primitivos como `null`, `undefined`, etc), `.json()` va a convertirlos a formato `JSON`, mientras que `.send()` no, por lo tanto, es preferible utilizar `.json()` cuando querramos responder con este formato.
+
 #### HTTP Status
 
 Con el método `Response.status()` podemos setear el _status code_ correspondiente
@@ -203,6 +209,8 @@ A esta parte del código encargada del _routing_, se la conoce como **router**.
 Express incluye el objeto [`router`](http://expressjs.com/en/4x/api.html#router).
 
 **Nota:** el uso del _router_ que nos provee Express es **opcional**, podemos seguir manejando el routing con Node o usar otro _router engine_ (buscar en NPM). El router de Express es bastante minimal y **nos permite separar la configuración y la lógica de la aplicación del manejo del routing**. 
+
+asd
 
 ### Rutas
 
@@ -269,9 +277,23 @@ Para más info, ver [Route parameters](http://expressjs.com/en/guide/routing.htm
 
 [EN DESARROLLO]
 
+Si tenemos, por ejemplo, definidas las siguientes rutas:
+
+```js
+app.get('/', (req, res) => res.send('Hello World!'));
+```
+
+```js
+app.get('/', (req, res) => res.send('Bye World!'));
+```
+
+la segunda nunca será alcanzada. 
+
+👉 Express funciona de forma _top-down_, **se ejecuta el callback correspondiente de la primer ruta que coincida**, a menos que explícitamente definamos que debe continuar.
+
 ## Middleware
 
-Las funciones middleware... **son funciones** que tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (generalmente identificada con una variable llamada _next_) en el ciclo request-response de nuestra aplicación.
+Las funciones middleware... **son funciones** que tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (generalmente identificada con una variable llamada _next_) en el ciclo request-response de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_).
 
 Vamos a usar `app.use()` para indicar que vamos a utilizar un _middleware_ determinado como función _callback_
 
@@ -317,6 +339,38 @@ const { PORT } = process.env;
 ### Ejercicios
 
 1. Crear un servidor en Express, que escuche en el puerto `8080` (leerlo del archivo `.env`) y responda con un `'Hola Mundo!'` cuando reciba un request a la ruta `/`. En el caso de que no haya un puerto seteado en `.env`, la aplicación debe escuchar en el puerto `8001`. Cuando el servidor esté levantado y corriendo, la aplicación debe loguear por consola `Express app listening on port ${PORT}!`, donde `PORT` es el puerto seteado.
+
 2. Modificar el ejercicio anterior, para que al recibir un request `GET` a la ruta `/salute/{name}`, la aplicación responda con un `'Hola {name}!'`, donde `name` es un parámetro que recibe por URL. 
+
 3. Rehacer el [ejercicio 2](https://github.com/undefinedschool/notes-nodejs#ejercicios-1) utilizando Express. Usar [`pug` como _template engine_](http://expressjs.com/en/guide/using-template-engines.html) para retornar las diferentes _vistas HTML_ de nuestra aplicación.
+
 4. Rehacer el [ejercicio 6](https://github.com/undefinedschool/notes-nodejs#ejercicios-1), [sirviendo los archivos estáticos (assets) con `Express`](https://expressjs.com/en/starter/static-files.html) desde la carpeta `/public`.
+
+5. Crear una aplicación con `Express`, que tenga al archivo `salad.js` como _entrypoint_ y escuche en el puerto `9001` (leerlo del archivo `.env`). Los _assets_ (archivos estáticos) deben estar ubicados en la carpeta `/assets`. Utilizar el middleware `static` para servirlos. En el caso de que no haya un puerto seteado en `.env`, la aplicación debe escuchar en el puerto `8001`. Cuando el servidor esté levantado, loguear el mensaje `Server listening on http://${HOSTNAME}:${PORT}`, donde `HOSTNAME` es otra variable de entorno con el valor `localhost`. Probar los endpoints con _Postman_. Utilizar el middleware [`body-parser`](https://www.npmjs.com/package/body-parser) para parsear los requests que envíen `JSON`
+`salad.js` debe contar con las siguientes rutas (la lógica de _routing_ debe estar separada, utilizando el `Router` de Express), definidas en el módulo `routes.js`:
+
+- `GET /over/:ki`: si el parámetro recibido es mayor a 9000, debemos retornar [esta imagen](https://scontent.faep8-2.fna.fbcdn.net/v/t1.0-9/13557935_10154299834588430_6953082742839667877_n.jpg?_nc_cat=108&_nc_ohc=NaJZnDsaLH4AQmlOMjlSHEY-Ie0cKmNMiM6JfFXvi5XqS7Vy7dFIqjyWg&_nc_ht=scontent.faep8-2.fna&oh=e8224bf46f2ff62926ce3edb89229f17&oe=5EA8758F). Si el parámetro está recibido entre 8000 y 9000, debe responder con [esta imagen](https://i.pinimg.com/originals/c4/5a/2b/c45a2b80dfe53775508dad0335eb117f.jpg)
+- `GET /download`: debe retornar el mensaje (string) `No te entiendo.`
+- `GET /download/internet`: debe generar una descarga de [esta imagen](https://www.mememaker.net/api/bucket?path=static/img/memes/full/2017/Jan/18/16/download-all-the-internet.jpg), con el nombre `download-all-the-internet.jpg`. Investigar qué método de Express provee esta funcionalidad.
+- `GET /area51`: responder con el `JSON` `{ message: "RESTRICTED AREA. NO TRESPASSING." }` y status code `401`
+- `GET /undefined`: responder con el `JSON` `{ message: "404 - Ni idea, no lo encuentro" }` y status code `404`
+- `GET /html/:name/:color`: name y color son parametros que representan un nombre y un color, respectivamente. Responder con el [siguiente HTML](), generado con Pug
+- `POST /series`: el `body` del request será el siguiente [`JSON`](http://api.tvmaze.com/singlesearch/shows?q=mr-robot&embed=episodes). Retornar un `JSON` con la siguiente data, procesada y extraída a partir del request: 
+
+```
+{ 
+  "series name": {nombre de la serie},
+  "number of episodes": {cantidad total de episodios},
+  "total runtime": {cantidad total de minutos que dura la serie},
+  "first episode": {
+    "name": {nombre},
+    "date": {fecha de estreno}
+  },
+  "last episode": {
+    "name": {nombre},
+    "date": {fecha de estreno}
+  },
+}
+```
+
+6. 
