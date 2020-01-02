@@ -61,6 +61,80 @@ Es un _framework_ para desarrollar aplicaciones web (_server-side_) con _Node_, 
 
 Generalmente, vamos a recibir _requests_ con nuestra aplicación Express (_back-end_), generar la respuesta en formato JSON y enviársela al cliente (_front-end_) para que la consuma y haga con esta lo que quiera, genere las _vistas_ correspondientes, etc. También podemos generar vistas desde el servidor, utilizando HTML plano como hicimos anteriormente en Node o algún _template engine_ como [Handlebars](https://handlebarsjs.com/) o [Pug](https://pugjs.org/). 
 
+## Hola Mundo
+
+```js
+const express = require('express');
+const app = express();
+const HOSTNAME = '127.0.0.1';
+const PORT = 8080;
+
+app.get('/', (req, res) => res.send('Hello World!'));
+app.listen(PORT, () => console.log('Server listening on http://${HOSTNAME}:${PORT}...'));
+```
+
+## Inicialización: ¿qué es `app`?
+
+En cualquier tutorial, guía o documentación que busquemos sobre Express, nos vamos a encontrar con la variable `app` al inicio del código del programa. Si analizamos el código fuente del framework, veremos que lo que Express exporta (y estamos importando al hacer el _require_) es una _función_, `createApplication()`. Esta función retorna una _instancia de una aplicación Express_, que estamos almacenando en `app`. 
+
+Por lo tanto, `app` es un objeto, el cual nos permite acceder mediante diferentes propiedades y métodos a toda la funcionalidad que nos provee el framework.
+
+```js
+const express = require('express');
+const app = express();
+```
+
+Luego, para iniciar el servidor, debemos simplemente definir una _ruta_, su correspondiente _callback_ y dejarlo escuchando en algún puerto. Al igual que en Node, el callback va a ejecutarse en cada request recibido en la ruta definida, creando una instancia de los objeto `Request` y `Response`, que se corresponden con los parámetros `req` y `res`, respectivamente.
+
+```js
+const PORT = 8080;
+
+app.get('/', (req, res) => res.send('Hello World!'));
+
+app.listen(PORT);
+```
+
+## Request/Response
+
+### Request
+
+[EN DESARROLLO]
+
+### Response
+
+Utilizamos el método `Response.send()` para enviar una respuesta. Este método se encarga además de cerrar la conexión automáticamente.
+
+```js
+app.get('/', (req, res) => res.send('Hello World!'));
+```
+
+El método setea el `Content-Type` según el tipo de parámetro que reciba:
+
+- si le pasamos un _string_, `text/html`
+- si recibe un objeto/array, `application/json` (y parsea el parámetro como `JSON`)
+
+#### JSON
+
+Podemos responder con un `JSON` utilizando el método `Response.json()`. Este método acepta un objeto/array y se encarga de convertirlo a `JSON` (a través de `JSON.stringify()`), antes de enviarlo
+
+```js
+app.get('/', (req, res) => res.json({salute: 'Hello World!'}));
+```
+
+#### HTTP Status
+
+Con el método `Response.status()` podemos setear el _status code_ correspondiente
+
+```js
+res.status(404).end();
+```
+
+**Nota:** el método `Response.end()` envía una respuesta vacía (sin `body`)
+
+```js
+res.status(404).send('File not found');
+```
+
 ## Routing
 
 Dependiendo de en qué URL se realizar el _request_, debemos responder de una forma distinta, es decir, los _endpoints_ de nuestra aplicación deben reaccionar de diferentes maneras a los _requests_ del cliente.
@@ -136,13 +210,13 @@ Para más info, ver [Route parameters](http://expressjs.com/en/guide/routing.htm
 
 #### `req.query`
 
-[DESPUES DESARROLLO]
+[EN DESARROLLO]
 
 **Es importante notar que los parámetros recibidos por URL son siempre `strings`**.
 
 ### ⚠️ El orden en el que declaramos las rutas importa
 
-[DESPUES DESARROLLO]
+[EN DESARROLLO]
 
 ## Middleware
 
