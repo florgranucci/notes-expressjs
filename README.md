@@ -104,6 +104,20 @@ app.listen(PORT);
 
 [EN DESARROLLO]
 
+
+### Verbos HTTP
+
+Podemos recibir [diferentes tipos de _requests_](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods), según el tipo de acción que se quiera realizar con un determinado _recurso_. _Express_ nos proporciona diferentes métodos para cada uno de estos. Entre los más usuales, tenemos 
+
+- `GET`: pedir un recurso. Es el método default que ejecutamos en un navegador al ir a una URL
+- `POST`: enviar info
+- `PUT`: actualizar info
+- `DELETE`: eliminar info
+
+### CRUD
+
+Estos métodos se corresponden con los necesarios en [aplicaciones CRUD](https://rapidapi.com/blog/api-glossary/crud/).
+
 ### Response
 
 Utilizamos el método `Response.send()` para enviar una respuesta. Este método se encarga además de cerrar la conexión automáticamente.
