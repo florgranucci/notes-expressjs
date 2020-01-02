@@ -293,9 +293,11 @@ la segunda nunca será alcanzada.
 
 ## Middleware
 
-Las funciones middleware... **son funciones** que tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (generalmente identificada con una variable llamada _next_) en el ciclo request-response de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_).
+Las funciones middleware... **son funciones** que tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (función `next`) en el _ciclo request-response_ de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_). `next` es una función que, al ser invocada, ejecuta el middleware que le sucede al actual.
 
-Vamos a usar `app.use()` para indicar que vamos a utilizar un _middleware_ determinado como función _callback_
+Vamos a usar `app.use()` para indicar que vamos a utilizar un _middleware_ determinado como función _callback_.
+
+Express nos provee de algunos middlewares por default. También podemos encontrar otros en NPM o definir nuestros propios middlewares.
 
 Ver [Using middleware](https://expressjs.com/en/guide/using-middleware.html)
 
@@ -347,14 +349,17 @@ const { PORT } = process.env;
 4. Rehacer el [ejercicio 6](https://github.com/undefinedschool/notes-nodejs#ejercicios-1), [sirviendo los archivos estáticos (assets) con `Express`](https://expressjs.com/en/starter/static-files.html) desde la carpeta `/public`.
 
 5. Crear una aplicación con `Express`, que tenga al archivo `salad.js` como _entrypoint_ y escuche en el puerto `9001` (leerlo del archivo `.env`). Los _assets_ (archivos estáticos) deben estar ubicados en la carpeta `/assets`. Utilizar el middleware `static` para servirlos. En el caso de que no haya un puerto seteado en `.env`, la aplicación debe escuchar en el puerto `8001`. Cuando el servidor esté levantado, loguear el mensaje `Server listening on http://${HOSTNAME}:${PORT}`, donde `HOSTNAME` es otra variable de entorno con el valor `localhost`. Probar los endpoints con _Postman_. Utilizar el middleware [`body-parser`](https://www.npmjs.com/package/body-parser) para parsear los requests que envíen `JSON`
-`salad.js` debe contar con las siguientes rutas (la lógica de _routing_ debe estar separada, utilizando el `Router` de Express), definidas en el módulo `routes.js`:
+`salad.js` debe contar con las siguientes rutas (**la lógica de _routing_ debe estar separada, utilizando el `Router` de Express**), definidas en `/routes/index.js` e importadas y utilizadas desde `app.js`:
 
+- `GET /`: debe retornar un `JSON` listando todos los endpoints disponibles
 - `GET /over/:ki`: si el parámetro recibido es mayor a 9000, debemos retornar [esta imagen](https://scontent.faep8-2.fna.fbcdn.net/v/t1.0-9/13557935_10154299834588430_6953082742839667877_n.jpg?_nc_cat=108&_nc_ohc=NaJZnDsaLH4AQmlOMjlSHEY-Ie0cKmNMiM6JfFXvi5XqS7Vy7dFIqjyWg&_nc_ht=scontent.faep8-2.fna&oh=e8224bf46f2ff62926ce3edb89229f17&oe=5EA8758F). Si el parámetro está recibido entre 8000 y 9000, debe responder con [esta imagen](https://i.pinimg.com/originals/c4/5a/2b/c45a2b80dfe53775508dad0335eb117f.jpg)
 - `GET /download`: debe retornar el mensaje (string) `No te entiendo.`
 - `GET /download/internet`: debe generar una descarga de [esta imagen](https://www.mememaker.net/api/bucket?path=static/img/memes/full/2017/Jan/18/16/download-all-the-internet.jpg), con el nombre `download-all-the-internet.jpg`. Investigar qué método de Express provee esta funcionalidad.
 - `GET /area51`: responder con el `JSON` `{ message: "RESTRICTED AREA. NO TRESPASSING." }` y status code `401`
+- `POST /area51`: enviar el `JSON` `{ "secret": {SECRET_VALUE}}` Si `SECRET_VALUE` es `aliens`, responder con el `JSON` `{ message: "ACCESS GRANTED." }` y status code `200`, sino responder con el `JSON` `{ message: "RESTRICTED AREA. NO TRESPASSING." }` y status code `401`
 - `GET /undefined`: responder con el `JSON` `{ message: "404 - Ni idea, no lo encuentro" }` y status code `404`
-- `GET /html/:name/:color`: name y color son parametros que representan un nombre y un color, respectivamente. Responder con el [siguiente HTML](), generado con Pug
+- `GET /html/:name/:color`: `name` y `color` son parámetros que representan un nombre y un color, respectivamente. Responder con el [siguiente HTML](https://gist.githubusercontent.com/nhsz/5d4d9c339e99ad565116ddc8de0bb199/raw/25277d382208e3aa335d24b3b1888364084b015a/index.html), en un archivo `index.html`, generado con `Pug`. Si el color recibido es `red` ó `blue`, el html debe tener un `background-color: red` ó `background-color: blue`, respectivamente. Este CSS debe estar definido en un archivo `styles.css`. Tanto el `index.html` como el `styles.css` deberán ser servidos estáticamente desde la carpeta `/public`.
+- `GET /google`: redirigir a `https://google.com`, con un status `301`.
 - `POST /series`: el `body` del request será el siguiente [`JSON`](http://api.tvmaze.com/singlesearch/shows?q=mr-robot&embed=episodes). Retornar un `JSON` con la siguiente data, procesada y extraída a partir del request: 
 
 ```
@@ -372,5 +377,7 @@ const { PORT } = process.env;
   },
 }
 ```
+
+Utilizar el método [`route()`](http://expressjs.com/en/4x/api.html#router.route) del `Router`, para definir las rutas de una forma más declarativa. En caso de necesitar _debuggear_ la aplicación, utilizar [esta guía](https://itnext.io/the-absolute-easiest-way-to-debug-node-js-with-vscode-2e02ef5b1bad).
 
 6. 
