@@ -202,9 +202,9 @@ Hacer que diferentes _requests HTTP_ apunten a diferentes partes del código de 
 
 ### Router
 
-Para una aplicación muy simple, alcanza con agregar las rutas en condicionales dentro del _callback_ que recibe `createServer` en Node y modularizar esta función, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Es por esto que la lógica de _routing_ de las aplicaciones web suele separarse en otro módulo.
+Para una aplicación simple, alcanza con utilizar [la funcionalidad que nos provee Express](https://github.com/undefinedschool/notes-expressjs/#verbos-http) para el manejo de requets y routing, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Por esto y para _modularizar_ más nuestra aplicación, hacerla _más mantenible_ y separar responsabilidades, la lógica de _routing_ suele implementarse por separado, en otro módulo.
 
-A esta parte del código encargada del _routing_, se la conoce como **router**.
+A esta parte del código, encargada del _routing_ (manejo de rutas y requests), se la conoce como **router**.
 
 Express incluye el objeto [`router`](http://expressjs.com/en/4x/api.html#router).
 
@@ -379,5 +379,3 @@ const { PORT } = process.env;
 ```
 
 Utilizar el método [`route()`](http://expressjs.com/en/4x/api.html#router.route) del `Router`, para definir las rutas de una forma más declarativa. En caso de necesitar _debuggear_ la aplicación, utilizar [esta guía](https://itnext.io/the-absolute-easiest-way-to-debug-node-js-with-vscode-2e02ef5b1bad).
-
-6. 
