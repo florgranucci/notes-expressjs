@@ -112,7 +112,7 @@ Para cada _request_ tenemos que definir:
 
 Podemos recibir [diferentes tipos de _requests_](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods), según el tipo de acción que se quiera realizar con un determinado _recurso_. _Express_ nos proporciona diferentes métodos para cada uno de estos. Entre los más usuales, tenemos 
 
-- `GET`: pedir un recurso. Es el método default que ejecutamos en un navegador al ir a una URL
+- `GET`: pedir un recurso
 - `POST`: enviar info
 - `PUT`: actualizar info
 - `DELETE`: eliminar info
@@ -172,6 +172,8 @@ Podemos responder con un `JSON` utilizando el método `Response.json()`. Este m�
 app.get('/', (req, res) => res.json({salute: 'Hello World!'}));
 ```
 
+**Nota:** para parsear un request que envía `JSON`, tenemos que utilizar el middleware [`body-parser`](https://stackoverflow.com/questions/47232187/express-json-vs-bodyparser-json/47232318#47232318)
+
 #### `.send()` vs `.json()`
 
 Estos métodos son muy similares (`Response.json()` invoca a `Response.send()` al final).
@@ -202,7 +204,7 @@ Hacer que diferentes _requests HTTP_ apunten a diferentes partes del código de 
 
 ### Router
 
-Para una aplicación simple, alcanza con utilizar [la funcionalidad que nos provee Express](https://github.com/undefinedschool/notes-expressjs/#verbos-http) para el manejo de requets y routing, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Por esto y para _modularizar_ más nuestra aplicación, hacerla _más mantenible_ y separar responsabilidades, la lógica de _routing_ suele implementarse por separado, en otro módulo.
+Para una aplicación simple, alcanza con utilizar [la funcionalidad que nos provee Express a través de `app`](https://github.com/undefinedschool/notes-expressjs/#verbos-http) para el manejo de requets y routing, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Por esto y para _modularizar_ más nuestra aplicación, hacerla _más mantenible_ y separar responsabilidades, la lógica de _routing_ suele implementarse por separado, en otro módulo.
 
 A esta parte del código, encargada del _routing_ (manejo de rutas y requests), se la conoce como **router**.
 
@@ -291,11 +293,17 @@ la segunda nunca será alcanzada.
 
 ## Middleware
 
-Las funciones middleware... **son funciones** que tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (función `next`) en el _ciclo request-response_ de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_). `next` es una función que, al ser invocada, ejecuta el middleware que le sucede al actual.
+Las funciones middleware... **son funciones** que interceptan el proceso de _routing_ y tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (función `next`) en el _ciclo request-response_ de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. `next` es una función que, al ser invocada, ejecuta el middleware que le sucede al actual.
 
 Vamos a usar `app.use()` para indicar que vamos a utilizar un _middleware_ determinado como función _callback_.
 
 Express nos provee de algunos middlewares por default. También podemos encontrar otros en NPM o definir nuestros propios middlewares.
+
+### Ejemplos
+
+- [Express Router](http://expressjs.com/en/4x/api.html#router)
+- [`body-parser`](https://github.com/expressjs/body-parser)
+- [`helmet`](https://github.com/helmetjs/helmet)
 
 Ver [Using middleware](https://expressjs.com/en/guide/using-middleware.html)
 
