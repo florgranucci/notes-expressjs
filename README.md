@@ -206,11 +206,9 @@ Para una aplicación simple, alcanza con utilizar [la funcionalidad que nos prov
 
 A esta parte del código, encargada del _routing_ (manejo de rutas y requests), se la conoce como **router**.
 
-Express incluye el objeto [`router`](http://expressjs.com/en/4x/api.html#router).
+Express incluye [_middleware_](https://github.com/undefinedschool/notes-expressjs/#middleware) objeto [`router`](http://expressjs.com/en/4x/api.html#router).
 
 **Nota:** el uso del _router_ que nos provee Express es **opcional**, podemos seguir manejando el routing con Node o usar otro _router engine_ (buscar en NPM). El router de Express es bastante minimal y **nos permite separar la configuración y la lógica de la aplicación del manejo del routing**. 
-
-asd
 
 ### Rutas
 
