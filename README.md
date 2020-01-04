@@ -194,6 +194,8 @@ res.status(404).end();
 res.status(404).send('File not found');
 ```
 
+- [Referencia de `HTTP Status Codes` disponibles](https://httpstatuses.com/)
+
 ## Routing
 
 Dependiendo de en qué URL se realizar el _request_, debemos responder de una forma distinta, es decir, los _endpoints_ de nuestra aplicación deben reaccionar de diferentes maneras a los _requests_ del cliente.
