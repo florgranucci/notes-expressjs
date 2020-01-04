@@ -132,7 +132,7 @@ Cada uno de estos métodos recibe como parámetros
 
 Express también posee un método [`app.all()`](http://expressjs.com/en/5x/api.html#app.all), que _matchea_ con cualquier tipode verbo HTTP.
 
-### CRUD
+#### CRUD
 
 Estos métodos se corresponden con los necesarios en [aplicaciones CRUD](https://rapidapi.com/blog/api-glossary/crud/).
 
@@ -156,7 +156,23 @@ El método setea el `Content-Type` según el tipo de parámetro que reciba:
 - si le pasamos un _string_, `text/html`
 - si recibe un objeto/array, `application/json` (y parsea el parámetro como `JSON`)
 
-### 404
+#### Redirect
+
+Podemos redireccionar utilizando el método `Response.redirect()` (con status `302` por default):
+
+```js
+res.redirect('/another-url');
+```
+
+Un redirect `301` sería de la forma
+
+```js
+res.redirect(301, '/go-there');
+```
+
+El _path_ al que redireccionamos puede ser absoluto, relativo ó una URL.
+
+#### 404
 
 En el caso de recibir un request a una ruta inexistente, Express va a generar una respuesta automática de 404, del estilo
 
@@ -340,6 +356,10 @@ Una aplicación Express puede utiilizar los siguientes tipos de _middleware_:
 - Built-in middleware
 - Third-party middleware
 
+## Templating
+
+[EN DESARROLLO]
+
 ## Práctica
 
 ### Setup
@@ -388,7 +408,7 @@ const { PORT } = process.env;
 - `POST /area51`: enviar el `JSON` `{ "secret": {SECRET_VALUE}}`. Si `SECRET_VALUE` es `aliens`, responder con el `JSON` `{ message: "ACCESS GRANTED." }` y status code `200`, sino responder con el `JSON` `{ message: "RESTRICTED AREA. NO TRESPASSING." }` y status code `401`
 - `GET /undefined`: responder con el `JSON` `{ message: "404 - Ni idea, no lo encuentro" }` y status code `404`
 - `POST /users`: recibe un request de la forma `{ name: {NAME}, email: {EMAIL}, age: {AGE} }`. Usar [`express-validator`](https://express-validator.github.io/docs/) para validar que `name` tiene al menos 3 letras (y sólo contiene letras), `email` es un mail válido y `age` es un entero entre 0 y 120. Si pasa la validación y no existe otro usuario con ese email, agregarlo al array `registeredUsers`, dentro del módulo `users.js`. Si algún campo no pasa la validación, responder con un status [422](https://httpstatuses.com/422) y retornar los errores en formato `JSON`.
-- `GET /users`: retorna el contenido del array `registeredUsers`, en formato `JSON`.
+- `GET /users`: retorna un HTML generado con`pug`, el cual contiene una tabla con las columnas `Nombre`, `Email` y `Edad`, generada a partir del contenido del array `registeredUsers`.
 - `GET /html/:name/:color`: `name` y `color` son parámetros que representan un nombre y un color, respectivamente. Responder con el [siguiente HTML](https://gist.githubusercontent.com/nhsz/5d4d9c339e99ad565116ddc8de0bb199/raw/25277d382208e3aa335d24b3b1888364084b015a/index.html), en un archivo `index.html`, generado con `Pug`. Si el color recibido es `red` ó `blue`, el html debe tener un `background-color: red` ó `background-color: blue`, respectivamente. Este CSS debe estar definido en un archivo `styles.css`. Tanto el `index.html` como el `styles.css` deberán ser servidos estáticamente desde la carpeta `/public`.
 - `GET /google`: redirigir a `https://google.com`, con un status code `301`.
 - `POST /series`: el `body` del request será el siguiente [`JSON`](http://api.tvmaze.com/singlesearch/shows?q=mr-robot&embed=episodes). Retornar un `JSON` con la siguiente data, procesada y extraída a partir del request: 
