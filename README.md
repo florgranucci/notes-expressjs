@@ -320,6 +320,7 @@ Para más info, ver [Using middleware](https://expressjs.com/en/guide/using-midd
 - [Express Router](http://expressjs.com/en/4x/api.html#router)
 - [`body-parser`](https://github.com/expressjs/body-parser)
 - [`helmet`](https://github.com/helmetjs/helmet)
+- ...Y muchos [más ejemplos de Express middleware](https://expressjs.com/en/resources/middleware.html)
 
 ### Tipos de _middleware_
 
