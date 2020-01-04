@@ -293,19 +293,33 @@ la segunda nunca será alcanzada.
 
 ## Middleware
 
-Las funciones middleware... **son funciones** que interceptan el proceso de _routing_ y tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (función `next`) en el _ciclo request-response_ de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. `next` es una función que, al ser invocada, ejecuta el middleware que le sucede al actual.
+Las funciones middleware... **son funciones** que interceptan el proceso de _routing_ y tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (función `next`) en el _ciclo request-response_ de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. 
 
-Vamos a usar `app.use()` para indicar que vamos a utilizar un _middleware_ determinado como función _callback_.
+Los usos más comunes incluyen acceder a cierta info que nos proveen (o editar) los objetos `Request` y `Response`.
 
-Express nos provee de algunos middlewares por default. También podemos encontrar otros en NPM o definir nuestros propios middlewares.
+Vamos a usar `app.use()` para indicar que vamos a utilizar un _middleware_ determinado y agregarlo al stack de ejecución:
+
+```js
+app.use((req, res, next) => { /* */ });
+```
+
+`next` es una referencia a la siguiente función middleware. Al ser invocada, ejecuta el middleware que le sucede al actual. Siempre vamos a llamar a `next` al final del middleware actual, a menos que querramos finalizar la respuesta y enviársela al cliente.
+
+Express nos provee de algunos middlewares por default. También podemos encontrar otros como paquetes de `NPM`, o definir los nuestros propios.
+
+También podemos setear un middleware para que se ejecute sólo con algunas rutas específicas (no todas), si lo usamos como 2do. parámetro en la definición de la ruta:
+
+```js
+app.get('/', middlewareFn, (req, res) => res.send('Hello World!'));
+```
+
+Para más info, ver [Using middleware](https://expressjs.com/en/guide/using-middleware.html)
 
 ### Ejemplos
 
 - [Express Router](http://expressjs.com/en/4x/api.html#router)
 - [`body-parser`](https://github.com/expressjs/body-parser)
 - [`helmet`](https://github.com/helmetjs/helmet)
-
-Ver [Using middleware](https://expressjs.com/en/guide/using-middleware.html)
 
 ### Tipos de _middleware_
 
