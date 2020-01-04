@@ -180,6 +180,18 @@ En el caso de recibir un request a una ruta inexistente, Express va a generar un
 Cannot GET /undefined/route/
 ```
 
+#### Static
+
+Para servir archivos estáticos, debemos guardarlos en algún directorio (en la raíz del proyecto) y utilizar el middleware [`express.static()`](http://expressjs.com/en/starter/static-files.html#serving-static-files-in-express) (ya incluído en `Express`), referenciando este directorio
+
+Por ejemplo, si guardamos los _assets_ en `/public`
+
+```js
+app.use(express.static('public'));
+```
+
+De esta forma, si tenemos por ejemplo un archivo `index.html` en `/public`, va a ser _servido_ automáticamente si accedemos a la _homepage_ `http://localhost:PORT`. No hay que incluir `/public` en la URL.
+
 #### JSON
 
 Podemos responder con un `JSON` utilizando el método `Response.json()`. Este método acepta un objeto/array y se encarga de convertirlo a `JSON` antes de enviarlo
