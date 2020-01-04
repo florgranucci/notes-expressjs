@@ -192,6 +192,13 @@ app.use(express.static('public'));
 
 De esta forma, si tenemos por ejemplo un archivo `index.html` en `/public`, va a ser _servido_ automáticamente si accedemos a la _homepage_ `http://localhost:PORT`. No hay que incluir `/public` en la URL.
 
+También podemos setear múltiples directorios (Express va a buscar los archivos en el orden en el cual seteamos los directorios con `express.static()`)
+
+```js
+app.use(express.static('public'));
+app.use(express.static('images'));
+```
+
 #### JSON
 
 Podemos responder con un `JSON` utilizando el método `Response.json()`. Este método acepta un objeto/array y se encarga de convertirlo a `JSON` antes de enviarlo
@@ -228,7 +235,7 @@ res.status(404).send('File not found');
 
 Dependiendo de en qué URL se realizar el _request_, debemos responder de una forma distinta, es decir, los _endpoints_ de nuestra aplicación deben reaccionar de diferentes maneras a los _requests_ del cliente.
 
-Hacer que diferentes _requests HTTP_ apunten a diferentes partes del código de nuestra aplicación es lo que se conoce como **routing**. 
+👉 El proceso de determinar qué debe suceder cuando un _endpoint_, con determinado _verbo HTTP_ es llamado por el cliente, ó qué parte del código de nuestra aplicación debe manejar un request específico, es lo que se conoce como **routing**. 
 
 - Ver [Basic routing](https://expressjs.com/en/starter/basic-routing.html)
 
@@ -323,9 +330,9 @@ la segunda nunca será alcanzada.
 
 ## Middleware
 
-Las funciones middleware... **son funciones** que interceptan el proceso de _routing_ y tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (función `next`) en el _ciclo request-response_ de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. 
+Las funciones middleware... **son funciones** que interceptan el proceso de _routing_ y tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (`next`) en el _ciclo request-response_ de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. 
 
-Los usos más comunes incluyen acceder a cierta info que nos proveen (o editar) los objetos `Request` y `Response`.
+Los usos más comunes incluyen acceder a cierta info que nos proveen (o editar) los objetos `Request` y `Response`, chequear si un usuario está logueado, etc.
 
 Vamos a usar `app.use()` para indicar que vamos a utilizar un _middleware_ determinado y agregarlo al stack de ejecución:
 
@@ -415,13 +422,14 @@ const { PORT } = process.env;
 - `GET /`: debe retornar un `JSON` listando todos los endpoints disponibles, agrupados por tipo de verbo HTTP
 - `GET /over/:ki`: si el parámetro recibido es mayor a 9000, debemos retornar [esta imagen](https://scontent.faep8-2.fna.fbcdn.net/v/t1.0-9/13557935_10154299834588430_6953082742839667877_n.jpg?_nc_cat=108&_nc_ohc=NaJZnDsaLH4AQmlOMjlSHEY-Ie0cKmNMiM6JfFXvi5XqS7Vy7dFIqjyWg&_nc_ht=scontent.faep8-2.fna&oh=e8224bf46f2ff62926ce3edb89229f17&oe=5EA8758F). Si el parámetro está recibido entre 8000 y 9000, debe responder con [esta imagen](https://i.pinimg.com/originals/c4/5a/2b/c45a2b80dfe53775508dad0335eb117f.jpg)
 - `GET /download`: debe retornar el mensaje (string) `No te entiendo.`
-- `GET /download/internet`: debe generar una descarga de [esta imagen](https://www.mememaker.net/api/bucket?path=static/img/memes/full/2017/Jan/18/16/download-all-the-internet.jpg), con el nombre `download-all-the-internet.jpg`. Investigar qué método de Express provee esta funcionalidad.
+- `GET /download/internet`: debe generar una descarga de [esta imagen](https://www.mememaker.net/api/bucket?path=static/img/memes/full/2017/Jan/18/16/download-all-the-internet.jpg), con el nombre `download-all-the-internet.jpg`. Investigar qué método de `Express` provee esta funcionalidad.
 - `GET /area51`: responder con el `JSON` `{ message: "RESTRICTED AREA. NO TRESPASSING." }` y status code `401`
 - `POST /area51`: enviar el `JSON` `{ "secret": {SECRET_VALUE}}`. Si `SECRET_VALUE` es `aliens`, responder con el `JSON` `{ message: "ACCESS GRANTED." }` y status code `200`, sino responder con el `JSON` `{ message: "RESTRICTED AREA. NO TRESPASSING." }` y status code `401`
 - `GET /undefined`: responder con el `JSON` `{ message: "404 - Ni idea, no lo encuentro" }` y status code `404`
-- `POST /users`: recibe un request de la forma `{ name: {NAME}, email: {EMAIL}, age: {AGE} }`. Usar [`express-validator`](https://express-validator.github.io/docs/) para validar que `name` tiene al menos 3 letras (y sólo contiene letras), `email` es un mail válido y `age` es un entero entre 0 y 120. Si pasa la validación y no existe otro usuario con ese email, agregarlo al array `registeredUsers`, dentro del módulo `users.js`. Si algún campo no pasa la validación, responder con un status [422](https://httpstatuses.com/422) y retornar los errores en formato `JSON`.
+- `GET /shout/:word`: responder con el `JSON` `Quisiste decir {WORD}???` donde `WORD` es el parámetro recibido, convertido a mayúsculas
+- `POST /users`: recibe un request de la forma `{ name: {NAME}, email: {EMAIL}, age: {AGE} }`. Usar [`express-validator`](https://express-validator.github.io/docs/) para validar que `name` tiene al menos 3 letras (y sólo contiene letras), `email` es un mail válido y `age` es un entero entre 0 y 120. Si pasa la validación y no existe otro usuario con ese email, agregarlo al array `registeredUsers`, dentro del módulo `users.js`. Si algún campo no pasa la validación, responder con un status [422](https://httpstatuses.com/422) y retornar los errores en formato `JSON`. Usar además, las funcionalidades que nos provee [`express-validator`](https://express-validator.github.io/docs/) para _sanitizar el input_, de forma tal que `name` no contenga espacios al inicio ni al final ni otros caracteres especiales, `email` esté _normalizado_ y `age` no contenga espacios al inicio ni al final ni otros caracteres especiales.
 - `GET /users`: retorna un HTML generado con`pug`, el cual contiene una tabla con las columnas `Nombre`, `Email` y `Edad`, generada a partir del contenido del array `registeredUsers`.
-- `GET /html/:name/:color`: `name` y `color` son parámetros que representan un nombre y un color, respectivamente. Responder con el [siguiente HTML](https://gist.githubusercontent.com/nhsz/5d4d9c339e99ad565116ddc8de0bb199/raw/25277d382208e3aa335d24b3b1888364084b015a/index.html), en un archivo `index.html`, generado con `Pug`. Si el color recibido es `red` ó `blue`, el html debe tener un `background-color: red` ó `background-color: blue`, respectivamente. Este CSS debe estar definido en un archivo `styles.css`. Tanto el `index.html` como el `styles.css` deberán ser servidos estáticamente desde la carpeta `/public`.
+- `GET /html/:name/:color`: `name` y `color` son parámetros que representan un nombre y un color, respectivamente. Responder con el [siguiente HTML](https://gist.githubusercontent.com/nhsz/5d4d9c339e99ad565116ddc8de0bb199/raw/25277d382208e3aa335d24b3b1888364084b015a/index.html), en un archivo `index.html`, generado con [`Pug`](https://pugjs.org/). Si el color recibido es `red` ó `blue`, el html debe tener un `background-color: red` ó `background-color: blue`, respectivamente. Este CSS debe estar definido en un archivo `styles.css`. Tanto el `index.html` como el `styles.css` deberán ser servidos estáticamente desde la carpeta `/public`.
 - `GET /google`: redirigir a `https://google.com`, con un status code `301`.
 - `POST /series`: el `body` del request será el siguiente [`JSON`](http://api.tvmaze.com/singlesearch/shows?q=mr-robot&embed=episodes). Retornar un `JSON` con la siguiente data, procesada y extraída a partir del request: 
 
