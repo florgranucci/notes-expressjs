@@ -172,7 +172,7 @@ Podemos responder con un `JSON` utilizando el método `Response.json()`. Este m�
 app.get('/', (req, res) => res.json({salute: 'Hello World!'}));
 ```
 
-**Nota:** para parsear un request que envía `JSON` y acceder a su contenido, tenemos que utilizar el middleware [`body-parser`](https://stackoverflow.com/questions/47232187/express-json-vs-bodyparser-json/47232318#47232318)
+**Nota:** para parsear un request que envía `JSON`, tenemos que utilizar el middleware [`body-parser`](https://stackoverflow.com/questions/47232187/express-json-vs-bodyparser-json/47232318#47232318), que nos permitirá acceder a su contenido a través de `req.body`.
 
 #### `.send()` vs `.json()`
 
@@ -182,13 +182,13 @@ Estos métodos son muy similares: `Response.json()` invoca a `Response.send()` a
 
 #### HTTP Status
 
-Con el método `Response.status()` podemos setear el _status code_ correspondiente
+Cuando enviamos una respuesta, `Express` siempre setea automáticamente en los _headers_ un _status code_ por defecto (generalmente, `200`). En el caso de que querramos utilizar uno en particular, podemos utilizar el el método `Response.status()` para setear el _status code_ correspondiente
 
 ```js
 res.status(404).end();
 ```
 
-**Nota:** el método `Response.end()` envía una respuesta vacía (sin `body`)
+**Nota:** el método `Response.end()` envía una respuesta vacía, sin contenido en el `body`.
 
 ```js
 res.status(404).send('File not found');
@@ -306,6 +306,12 @@ app.use((req, res, next) => { /* */ });
 `next` es una referencia a la siguiente función middleware. Al ser invocada, ejecuta el middleware que le sucede al actual. Siempre vamos a llamar a `next` al final del middleware actual, a menos que querramos finalizar la respuesta y enviársela al cliente.
 
 Express nos provee de algunos middlewares por default. También podemos encontrar otros como paquetes de `NPM`, o definir los nuestros propios.
+
+En el caso de utilizar un middleware externo (a través de `NPM`), debemos seguir los siguientes pasos
+
+1. Instalarlo (ej: `npm i body-parser`)
+2. Importarlo (ej: `const bodyParser = require('body-parser')`)
+3. Usarlo (ej: `app.use(bodyParser.json())`)
 
 También podemos setear un middleware para que se ejecute sólo con algunas rutas específicas (no todas), si lo usamos como 2do. parámetro en la definición de la ruta:
 
