@@ -166,19 +166,19 @@ Cannot GET /undefined/route/
 
 #### JSON
 
-Podemos responder con un `JSON` utilizando el método `Response.json()`. Este método acepta un objeto/array y se encarga de convertirlo a `JSON` (a través de `JSON.stringify()`), antes de enviarlo
+Podemos responder con un `JSON` utilizando el método `Response.json()`. Este método acepta un objeto/array y se encarga de convertirlo a `JSON` antes de enviarlo
 
 ```js
 app.get('/', (req, res) => res.json({salute: 'Hello World!'}));
 ```
 
-**Nota:** para parsear un request que envía `JSON`, tenemos que utilizar el middleware [`body-parser`](https://stackoverflow.com/questions/47232187/express-json-vs-bodyparser-json/47232318#47232318)
+**Nota:** para parsear un request que envía `JSON` y acceder a su contenido, tenemos que utilizar el middleware [`body-parser`](https://stackoverflow.com/questions/47232187/express-json-vs-bodyparser-json/47232318#47232318)
 
 #### `.send()` vs `.json()`
 
-Estos métodos son muy similares (`Response.json()` invoca a `Response.send()` al final).
+Estos métodos son muy similares: `Response.json()` invoca a `Response.send()` al final.
 
-**La principal diferencia aparece cuando pasamos valores que no so objetos** (tipos primitivos como `null`, `undefined`, etc), `.json()` va a convertirlos a formato `JSON`, mientras que `.send()` no, por lo tanto, es preferible utilizar `.json()` cuando querramos responder con este formato.
+**La principal diferencia aparece cuando pasamos valores que no son objetos** (tipos primitivos como `null`, `undefined`, etc), `.json()` va a convertirlos a formato `JSON`, mientras que `.send()` no, por lo tanto, es preferible utilizar `.json()` cuando querramos responder con este formato.
 
 #### HTTP Status
 
