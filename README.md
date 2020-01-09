@@ -334,7 +334,7 @@ Las funciones middleware... **son funciones** que interceptan el proceso de _rou
 
 Los usos más comunes incluyen acceder a cierta info que nos proveen (o editar) los objetos `Request` y `Response`, chequear si un usuario está logueado, etc.
 
-Vamos a usar `app.use()` para indicar que vamos a utilizar un _middleware_ determinado y agregarlo al stack de ejecución:
+👉 Utilizamos `app.use()` para indicar que vamos a utilizar un _middleware_ determinado y agregarlo al stack de ejecución:
 
 ```js
 app.use((req, res, next) => { /* */ });
