@@ -372,7 +372,7 @@ app.get('/', (req, res) => res.send('Bye World!'));
 
 la segunda nunca será alcanzada. 
 
-👉 Express funciona de forma _top-down_, **se ejecuta el callback correspondiente de la primer ruta que coincida**, a menos que explícitamente definamos que debe continuar.
+👉 Express funciona de forma _top-down_, **se ejecuta el callback correspondiente de la primer ruta que coincida y omite el resto**, a menos que explícitamente definamos que debe continuar.
 
 [↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
