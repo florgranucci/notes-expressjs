@@ -241,6 +241,8 @@ app.get('/', (req, res) => res.json({salute: 'Hello World!'}));
 
 **Nota:** para parsear un request que envía `JSON`, tenemos que utilizar el middleware [`body-parser`](https://stackoverflow.com/questions/47232187/express-json-vs-bodyparser-json/47232318#47232318), que nos permitirá acceder a su contenido a través de `req.body`.
 
+Más info en [express.json()`](http://expressjs.com/en/api.html#express.json)
+
 [↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 #### `.send()` vs `.json()`
@@ -378,9 +380,17 @@ la segunda nunca será alcanzada.
 
 ## Middleware
 
-Las funciones middleware... **son funciones** que interceptan el proceso de _routing_ y tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (`next`) en el _ciclo request-response_ de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. 
+**Una función middleware es cualquier tipo de función que interceptan el proceso de _routing_ y tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (`next`) en el _ciclo request-response_ de nuestra aplicación**. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. 
 
-Los usos más comunes incluyen acceder a cierta info que nos proveen (o editar) los objetos `Request` y `Response`, chequear si un usuario está logueado, etc.
+Los usos más comunes incluyen 
+
+- acceder a cierta info que nos proveen (o editar) los objetos `Request` y `Response`
+- chequear si un usuario está logueado
+- almacenar info en la DB
+- parsear info proveniendte del `body` del request
+- etc
+
+👉**Podemos decir que `Express` es un framework integrado esencialmente por 2 cosas: Router y conjunto de funciones middleware**
 
 👉 Utilizamos `app.use(PATH)` para indicar que vamos a utilizar un _middleware_ determinado, de un `PATH` específico y agregarlo al stack de ejecución:
 
@@ -388,9 +398,49 @@ Los usos más comunes incluyen acceder a cierta info que nos proveen (o editar) 
 app.use((req, res, next) => { /* */ });
 ```
 
-`next` es una referencia a la siguiente función middleware. Al ser invocada, ejecuta el middleware que le sucede al actual. Siempre vamos a llamar a `next` al final del middleware actual, a menos que querramos finalizar la respuesta y enviársela al cliente.
+Por ejemplo, si queremos utilizar el middleware `blackMagic` a nivel aplicación, hacemos
 
-Express nos provee de algunos middlewares por default. También podemos encontrar otros como paquetes de `NPM`, o definir los nuestros propios.
+```js
+app.use(blackMagic);
+```
+
+Mientras que si queremos utilizarlo en una ruta específica, por ejemplo `/magic`, hacemos
+
+```js
+// this will run `validateUser` on /magic, ALL HTTP methods
+app.use('/magic', blackMagic);
+// this will run `validateUser` on /, GET method
+app.get('/magic', blackMagic);
+```
+
+### `next` y _custom middleware_
+
+`next` es una referencia a la siguiente función middleware. Al ser invocada, ejecuta el middleware que le sucede al actual. Vamos a llamar a `next` al final del middleware actual si queremos _pasarle el control a la siguiente función middleware_, sino, finaliza el ciclo y se envía la respuesta al cliente.
+
+Express nos provee de algunos middlewares por default. También podemos encontrar otros como paquetes de `NPM`, o definir los nuestros propios (custom).
+
+Ejemplo de middleware propio:
+
+```js
+function validateUser(req, res, next) {
+  // some middleware code (get info from req, do smth with db, etc...)
+ res.locals.validatedUser = true;
+ next();
+}
+
+// this will run `validateUser` on ALL paths, ALL HTTP methods
+app.use(validateUser);
+
+app.get('/', (req, res, next) => {
+  const { validatedUser } = res.locals;
+  console.log(`valid user: ${validatedUser}`);
+  
+  res.send('Hello, user!');
+  // we don't call `next` here, so the cycle ends
+})
+```
+
+### Usando middleware a través NPM
 
 En el caso de utilizar un middleware externo (a través de `NPM`), debemos seguir los siguientes pasos
 
@@ -407,6 +457,10 @@ app.get('/', middlewareFn, (req, res) => res.send('Hello World!'));
 Para más info, ver [Using middleware](https://expressjs.com/en/guide/using-middleware.html)
 
 [↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
+### Middleware: beneficios
+
+La principal ventaja de utilizar _middleware_ en `Express` es la de modularizar nuestro código en pequeñas funciones, que podemos utilizar a nivel de la aplicación entera, de una forma mucho más limpia y mantenible, sin necesidad de definir esta funcionalidad en cada ruta.
 
 ### Middleware: ejemplos
 
