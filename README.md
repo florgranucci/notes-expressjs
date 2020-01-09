@@ -29,6 +29,8 @@
 - [Guía oficial y conceptos](https://expressjs.com/en/guide/routing.html)
 - [Express API](https://expressjs.com/en/5x/api.html)
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 ## Instalación   
 
 _Express_ es paquete de Node, por lo que se instala con `npm` como cualquier otra dependencia de nuestro proyecto
@@ -37,9 +39,13 @@ _Express_ es paquete de Node, por lo que se instala con `npm` como cualquier otr
 npm install express
 ```
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 ## ¿Qué es ExpressJS?
 
 Es un _framework_ para desarrollar aplicaciones web (_server-side_) con _Node_, _minimalista_ y _no opinionado_. Esto último significa que no asume que vayamos a construir nuestras aplicaciones de alguna forma en particular, cómo manejar los _requests_ o generar los _responses_, etc, en ese sentido, mantenemos el control.
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 ## Ventajas sobre usar utilizar Node (`http`)
 
@@ -53,6 +59,8 @@ Es un _framework_ para desarrollar aplicaciones web (_server-side_) con _Node_, 
 - **Middleware:** funciones que nos van a permitir interceptar y manipular _requests_ antes de hacer cualquier otra cosa
 - Express **es el framework más popular** para desarrollar aplicaciones web con Node
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 ## Usos
 
 - _servers_
@@ -60,6 +68,8 @@ Es un _framework_ para desarrollar aplicaciones web (_server-side_) con _Node_, 
 - _Microservicios_
 
 Generalmente, vamos a recibir _requests_ con nuestra aplicación Express (_back-end_), generar la respuesta en formato JSON y enviársela al cliente (_front-end_) para que la consuma y haga con esta lo que quiera, genere las _vistas_ correspondientes, etc. También podemos generar vistas desde el servidor, utilizando HTML plano como hicimos anteriormente en Node o algún _template engine_ como [Handlebars](https://handlebarsjs.com/) o [Pug](https://pugjs.org/). 
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 ## Hola Mundo
 
@@ -78,6 +88,8 @@ app.listen(PORT, () => console.log('Server listening on http://${HOSTNAME}:${POR
 Al igual que en Node, utilizamos el método `listen` para dejar el servidor levantado y escuchando en el puerto que le indiquemos.
 
 Luego, ejecutarlo con `node index.js`. ¡Ahora podemos entrar a `localhost:8080` en nuestro navegador y ver la respuesta del servidor! :rocket:
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 ## Inicialización: ¿qué es `app`?
 
@@ -100,6 +112,8 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.listen(PORT);
 ```
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 ## Request/Response
 
 ### Request
@@ -109,6 +123,8 @@ Para cada _request_ tenemos que definir:
 1. Verbo HTTP
 2. Ruta
 3. Callback
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 ### Verbos HTTP
 
@@ -134,6 +150,8 @@ Cada uno de estos métodos recibe como parámetros
 
 Express también posee un método [`app.all()`](http://expressjs.com/en/5x/api.html#app.all), que _matchea_ con cualquier tipode verbo HTTP.
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 #### CRUD
 
 Estos métodos se corresponden con los necesarios en [aplicaciones CRUD](https://rapidapi.com/blog/api-glossary/crud/).
@@ -144,6 +162,8 @@ Estos métodos se corresponden con los necesarios en [aplicaciones CRUD](https:/
 | **R**ead   | `get`      |
 | **U**pdate | `put`      |
 | **D**elete | `delete`   |
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 ### Response
 
@@ -157,6 +177,8 @@ El método setea el `Content-Type` según el tipo de parámetro que reciba:
 
 - si le pasamos un _string_, `text/html`
 - si recibe un objeto/array, `application/json` (y parsea el parámetro como `JSON`)
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 #### Redirect
 
@@ -174,6 +196,8 @@ res.redirect(301, '/go-there');
 
 El _path_ al que redireccionamos puede ser absoluto, relativo ó una URL.
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 #### 404
 
 En el caso de recibir un request a una ruta inexistente, Express va a generar una respuesta automática de 404, del estilo
@@ -182,7 +206,9 @@ En el caso de recibir un request a una ruta inexistente, Express va a generar un
 Cannot GET /undefined/route/
 ```
 
-#### Static
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
+#### Servir estáticos con `express.static()`
 
 Para servir archivos estáticos, debemos guardarlos en algún directorio (en la raíz del proyecto) y utilizar el middleware [`express.static()`](http://expressjs.com/en/starter/static-files.html#serving-static-files-in-express) (ya incluído en `Express`), referenciando este directorio
 
@@ -192,14 +218,18 @@ Por ejemplo, si guardamos los _assets_ en `/public`
 app.use(express.static('public'));
 ```
 
-De esta forma, si tenemos por ejemplo un archivo `index.html` en `/public`, va a ser _servido_ automáticamente si accedemos a la _homepage_ `http://localhost:PORT`. No hay que incluir `/public` en la URL.
+De esta forma, si tenemos por ejemplo un archivo `index.html` en `/public`, va a ser _servido_ automáticamente si accedemos a la _homepage_ `http://localhost:PORT`. No hay que incluir `/public` (ni ningún otro directorio que definamos como _estático_) en la URL, está implícito en esta.
 
-También podemos setear múltiples directorios (Express va a buscar los archivos en el orden en el cual seteamos los directorios con `express.static()`)
+También podemos setear múltiples directorios, tantos como necesitemos. `Express` va a buscar los archivos en el orden en el cual seteamos los directorios con `express.static()`.
 
 ```js
 app.use(express.static('public'));
 app.use(express.static('images'));
 ```
+
+⚠️ **Recordar que todo el contenido de nuestros _directorios estáticos_ será público y accesible por cualquiera, mediante la URL correspondiente. Por lo tanto, no debemos guardar allí aquellos archivos e información que consideremos sensibles**. Como convención y tip para tener siempre esto en cuenta, se suele llamar `/public` al directorio desde el cual servimos los estáticos.
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 #### JSON
 
@@ -211,11 +241,15 @@ app.get('/', (req, res) => res.json({salute: 'Hello World!'}));
 
 **Nota:** para parsear un request que envía `JSON`, tenemos que utilizar el middleware [`body-parser`](https://stackoverflow.com/questions/47232187/express-json-vs-bodyparser-json/47232318#47232318), que nos permitirá acceder a su contenido a través de `req.body`.
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 #### `.send()` vs `.json()`
 
 Estos métodos son muy similares: `Response.json()` invoca a `Response.send()` al final.
 
 **La principal diferencia aparece cuando pasamos valores que no son objetos** (tipos primitivos como `null`, `undefined`, etc), `.json()` va a convertirlos a formato `JSON`, mientras que `.send()` no, por lo tanto, es preferible utilizar `.json()` cuando querramos responder con este formato.
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 #### HTTP Status
 
@@ -233,6 +267,8 @@ res.status(404).send('File not found');
 
 - [Referencia de `HTTP Status Codes` disponibles](https://httpstatuses.com/)
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 ## Routing
 
 Dependiendo de en qué URL se realizar el _request_, debemos responder de una forma distinta, es decir, los _endpoints_ de nuestra aplicación deben reaccionar de diferentes maneras a los _requests_ del cliente.
@@ -240,6 +276,8 @@ Dependiendo de en qué URL se realizar el _request_, debemos responder de una fo
 👉 El proceso de determinar qué debe suceder cuando un _endpoint_, con determinado _verbo HTTP_ es llamado por el cliente, ó qué parte del código de nuestra aplicación debe manejar un request específico, es lo que se conoce como **routing**. 
 
 - Ver [Basic routing](https://expressjs.com/en/starter/basic-routing.html)
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 ### Router
 
@@ -250,6 +288,8 @@ A esta parte del código, encargada del _routing_ (manejo de rutas y requests), 
 Express incluye [_middleware_](https://github.com/undefinedschool/notes-expressjs/#middleware) objeto [`router`](http://expressjs.com/en/4x/api.html#router).
 
 **Nota:** el uso del _router_ que nos provee Express es **opcional**, podemos seguir manejando el routing con Node o usar otro _router engine_ (buscar en NPM). El router de Express es bastante minimal y **nos permite separar la configuración y la lógica de la aplicación del manejo del routing**. 
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 ### Rutas
 
@@ -275,6 +315,8 @@ app.all('*', (req, res) => res.send('Hello'));
 ```
 
 Ver [todos los métodos HTTP disponibles](https://expressjs.com/en/4x/api.html#app.METHOD)
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 ### URL Parameters
 
@@ -306,6 +348,8 @@ req.params: { "userId": "34", "bookId": "8989" }
 
 Para más info, ver [Route parameters](http://expressjs.com/en/guide/routing.html#route-parameters)
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 #### `req.query`
 
 [EN DESARROLLO]
@@ -330,13 +374,15 @@ la segunda nunca será alcanzada.
 
 👉 Express funciona de forma _top-down_, **se ejecuta el callback correspondiente de la primer ruta que coincida**, a menos que explícitamente definamos que debe continuar.
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 ## Middleware
 
 Las funciones middleware... **son funciones** que interceptan el proceso de _routing_ y tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (`next`) en el _ciclo request-response_ de nuestra aplicación. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. 
 
 Los usos más comunes incluyen acceder a cierta info que nos proveen (o editar) los objetos `Request` y `Response`, chequear si un usuario está logueado, etc.
 
-👉 Utilizamos `app.use()` para indicar que vamos a utilizar un _middleware_ determinado y agregarlo al stack de ejecución:
+👉 Utilizamos `app.use(PATH)` para indicar que vamos a utilizar un _middleware_ determinado, de un `PATH` específico y agregarlo al stack de ejecución:
 
 ```js
 app.use((req, res, next) => { /* */ });
@@ -360,12 +406,17 @@ app.get('/', middlewareFn, (req, res) => res.send('Hello World!'));
 
 Para más info, ver [Using middleware](https://expressjs.com/en/guide/using-middleware.html)
 
-### Ejemplos
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
+### Middleware: ejemplos
+
+- [Express Static](https://expressjs.com/en/4x/api.html#express.static)
 - [Express Router](http://expressjs.com/en/4x/api.html#router)
 - [`body-parser`](https://github.com/expressjs/body-parser)
 - [`helmet`](https://github.com/helmetjs/helmet)
 - ...Y muchos [más ejemplos de Express middleware](https://expressjs.com/en/resources/middleware.html)
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
 ### Tipos de _middleware_
 
@@ -377,9 +428,15 @@ Una aplicación Express puede utiilizar los siguientes tipos de _middleware_:
 - Built-in middleware
 - Third-party middleware
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 ## Templating
 
 [EN DESARROLLO]
+
+### Enviar HTML estático
+
+En el caso de querer enviar un HTML estático como respuesta (sin utilizar ningún template), debemos utilizar el método `[Response.sendFile()](http://expressjs.com/en/api.html#res.sendFile)` e indicarle la _ruta absoluta_ del archivo (ya que estamos leyendo un archivo del _file system_ en lugar de generar uno nuevo a partir de un template). Para esto último, podemos utilizar el método de Node `path.join()` junto con [`__dirname`](https://alligator.io/nodejs/how-to-use__dirname/).
 
 ## Práctica
 
@@ -408,6 +465,8 @@ const { PORT } = process.env;
 
 :warning: **Nota**: el archivo `.env` no debe comitearse, agregarlo al `.gitignore`
 
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
 ### Ejercicios
 
 1. Crear un servidor en Express, que escuche en el puerto `8080` (leerlo del archivo `.env`) y responda con un `'Hola Mundo!'` cuando reciba un request a la ruta `/`. En el caso de que no haya un puerto seteado en `.env`, la aplicación debe escuchar en el puerto `8001`. Cuando el servidor esté levantado y corriendo, la aplicación debe loguear por consola `Express app listening on port ${PORT}!`, donde `PORT` es el puerto seteado.
@@ -419,3 +478,5 @@ const { PORT } = process.env;
 4. Rehacer el [ejercicio 6](https://github.com/undefinedschool/notes-nodejs#ejercicios-1), [sirviendo los archivos estáticos (assets) con `Express`](https://expressjs.com/en/starter/static-files.html) desde la carpeta `/public`.
 
 5. Ver [express-salad](https://github.com/undefinedschool/express-salad)
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
