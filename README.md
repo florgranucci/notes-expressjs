@@ -75,6 +75,8 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.listen(PORT, () => console.log('Server listening on http://${HOSTNAME}:${PORT}...'));
 ```
 
+Al igual que en Node, utilizamos el método `listen` para dejar el servidor levantado y escuchando en el puerto que le indiquemos.
+
 Luego, ejecutarlo con `node index.js`. ¡Ahora podemos entrar a `localhost:8080` en nuestro navegador y ver la respuesta del servidor! :rocket:
 
 ## Inicialización: ¿qué es `app`?
