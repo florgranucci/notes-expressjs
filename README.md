@@ -283,13 +283,73 @@ Dependiendo de en qué URL se realizar el _request_, debemos responder de una fo
 
 ### Router
 
-Para una aplicación simple, alcanza con utilizar [la funcionalidad que nos provee Express a través de `app`](https://github.com/undefinedschool/notes-expressjs/#verbos-http) para el manejo de requets y routing, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Por esto y para _modularizar_ más nuestra aplicación, hacerla _más mantenible_ y separar responsabilidades, la lógica de _routing_ suele implementarse por separado, en otro módulo.
+Para una aplicación simple, alcanza con utilizar [la funcionalidad que nos provee Express a través de `app`](https://github.com/undefinedschool/notes-expressjs/#verbos-http) para el manejo del _routing_, pero a medida que la complejidad de la aplicación crece, se vuelve más engorroso. Por esto y **para _modularizar_ más nuestra aplicación, hacerla _más mantenible_ y separar responsabilidades, la lógica de _routing_ suele implementarse por separado, en otro módulo**.
 
 A esta parte del código, encargada del _routing_ (manejo de rutas y requests), se la conoce como **router**.
 
 Express incluye [_middleware_](https://github.com/undefinedschool/notes-expressjs/#middleware) objeto [`router`](http://expressjs.com/en/4x/api.html#router).
 
 **Nota:** el uso del _router_ que nos provee Express es **opcional**, podemos seguir manejando el routing con Node o usar otro _router engine_ (buscar en NPM). El router de Express es bastante minimal y **nos permite separar la configuración y la lógica de la aplicación del manejo del routing**. 
+
+También podemos organizar las rutas de nuestra aplicación en diferentes módulos, usando el ´Router´ en cada uno de ellos y luego usándolos como _middleware_. Por ejemplo, si tuviésemos las rutas correspondientes a las diferentes secciones de un diario, organizadas en ´/sports´, ´/arts´, ´/books´, etc, luego haríamos
+
+´´´js
+const sportsRoutes = require('./sports');
+const artsRoutes = require('./routes');
+const booksRoutes = require('./routes');
+
+app.use(sportsRoutes);
+app.use(artsRoutes);
+app.use(booksRoutes);
+´´´
+
+**Nota:** en _todos_ los módulos donde estemos utilizando el ´Router´ tenemos que importar ´express´, ya que el ´Router´ no deja de ser un _middleware_ de este. Por ejemplo
+
+´´´js
+// routes/index.js
+const express = require("express");
+
+const router = express.Router();
+
+const users = []; // this would ideally be a database, but we'll start with something simple
+let id = 1; // this will help us identify unique users
+
+// instead of ´app.get´...
+router.get("/users", (req, res) => {
+  return res.json(users);
+});
+
+router.get("/users/:id", (req, res) => {
+  const user = users.find(val => val.id === Number(req.params.id));
+  return res.json(user);
+});
+
+// instead of ´app.post´...
+router.post("/users", (req, res) => {
+  users.push({
+    name: req.body.name,
+    id: ++id
+  });
+  return res.json({ message: "Created" });
+});
+
+// instead of ´app.patch´...
+router.patch("/users/:id", (req, res) => {
+  const user = users.find(val => val.id === Number(req.params.id));
+  user.name = req.body.name;
+  return res.json({ message: "Updated" });
+});
+
+// instead of ´app.delete´...
+router.delete("/users/:id", (req, res) => {
+  const userIndex = users.findIndex(val => val.id === Number(req.params.id));
+  users.splice(userIndex, 1);
+  return res.json({ message: "Deleted" });
+});
+
+// Now that we have built up all these routes - let's export this module for use in our app.js!
+module.exports = router;
+´´´
 
 [↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
