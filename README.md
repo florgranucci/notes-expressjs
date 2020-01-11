@@ -287,13 +287,13 @@ Para una aplicación simple, alcanza con utilizar [la funcionalidad que nos prov
 
 A esta parte del código, encargada del _routing_ (manejo de rutas y requests), se la conoce como **router**.
 
-´Express´ incluye como [_middleware_](https://github.com/undefinedschool/notes-expressjs/#middleware) al objeto [`router`](http://expressjs.com/en/4x/api.html#router).
+`Express` incluye como [_middleware_](https://github.com/undefinedschool/notes-expressjs/#middleware) al objeto [`router`](http://expressjs.com/en/4x/api.html#router).
 
 **Nota:** el uso del _router_ que nos provee Express es **opcional**, podemos seguir manejando el routing con Node o usar otro _router engine_ (buscar en NPM). El router de Express es bastante minimal y **nos permite separar la configuración y la lógica de la aplicación del manejo del routing**. 
 
-También podemos organizar las rutas de nuestra aplicación en diferentes módulos, usando el ´Router´ en cada uno de ellos y luego usándolos como _middleware_. Por ejemplo, si tuviésemos las rutas correspondientes a las diferentes secciones de un diario, organizadas en ´/sports´, ´/arts´, ´/books´, etc, luego haríamos
+También podemos organizar las rutas de nuestra aplicación en diferentes módulos, usando el ´Router´ en cada uno de ellos y luego usándolos como _middleware_. Por ejemplo, si tuviésemos las rutas correspondientes a las diferentes secciones de un diario, organizadas en `/sports`, `/arts`, `/books`, etc, luego haríamos
 
-´´´js
+```js
 const sportsRoutes = require('./sports');
 const artsRoutes = require('./routes');
 const booksRoutes = require('./routes');
@@ -301,11 +301,11 @@ const booksRoutes = require('./routes');
 app.use(sportsRoutes);
 app.use(artsRoutes);
 app.use(booksRoutes);
-´´´
+```
 
 **Nota:** en _todos_ los módulos donde estemos utilizando el ´Router´ tenemos que importar ´express´, ya que el ´Router´ no deja de ser un _middleware_ de este. Por ejemplo
 
-´´´js
+```js
 // routes/index.js
 const express = require("express");
 
@@ -314,7 +314,7 @@ const router = express.Router();
 const users = []; // this would ideally be a database, but we'll start with something simple
 let id = 1; // this will help us identify unique users
 
-// instead of ´app.get´...
+// instead of `app.get`...
 router.get("/users", (req, res) => {
   res.json(users);
 });
@@ -324,7 +324,7 @@ router.get("/users/:id", (req, res) => {
   res.json(user);
 });
 
-// instead of ´app.post´...
+// instead of `app.post`...
 router.post("/users", (req, res) => {
   users.push({
     name: req.body.name,
@@ -333,14 +333,14 @@ router.post("/users", (req, res) => {
   res.json({ message: "Created" });
 });
 
-// instead of ´app.patch´...
+// instead of `app.patch`...
 router.patch("/users/:id", (req, res) => {
   const user = users.find(val => val.id === Number(req.params.id));
   user.name = req.body.name;
   res.json({ message: "Updated" });
 });
 
-// instead of ´app.delete´...
+// instead of `app.delete`...
 router.delete("/users/:id", (req, res) => {
   const userIndex = users.findIndex(val => val.id === Number(req.params.id));
   users.splice(userIndex, 1);
@@ -349,7 +349,104 @@ router.delete("/users/:id", (req, res) => {
 
 // Now that we have built up all these routes - let's export this module for use in our app.js!
 module.exports = router;
-´´´
+```
+
+[↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
+
+#### Router: sintaxis más declarativa
+
+El `Router` nos permite también utilizar una _sintaxis más declarativa y legible_ a través del método `route`.
+
+```js
+const express = require("express");
+const router = express.Router();
+
+const users = [];
+let id = 1;
+
+// declare the route first, then all the methods on it
+router
+  .route("/users")
+  .get(() => {
+    return res.json(users);
+  })
+  .post(() => {
+    users.push({
+      name: req.body.name,
+      id: ++id
+    });
+    return res.json({ message: "Created" });
+  });
+
+router
+  .route("/users/:id")
+  .get((req, res) => {
+    const user = users.find(val => val.id === Number(req.params.id));
+    return res.json(user);
+  })
+  .patch((req, res) => {
+    user.name = req.body.name;
+    return res.json({ message: "Updated" });
+  })
+  .delete((req, res) => {
+    users.splice(user.id, 1);
+    return res.json({ message: "Deleted" });
+  });
+
+module.exports = router;
+```
+
+También podemos utilizar _prefijos_ para las rutas que definamos
+
+```js
+// prefix every single route in here with /users
+app.use("/users", userRoutes);
+```
+
+...y luego definir las rutas de la forma
+
+```js
+const express = require("express");
+const router = express.Router();
+
+const users = [];
+let id = 1;
+
+// declare all the methods on the /users route (prefix specified in app.js)
+router
+  .route("")
+  .get((req, res) => {
+    return res.json(users);
+  })
+  .post((req, res) => {
+    users.push({
+      name: req.body.name,
+      id: ++id
+    });
+    return res.json({message: "Created"});
+  });
+
+router
+  .route("/:id")
+  .get((req, res) => {
+    const user = users.find(val => val.id === Number(req.params.id));
+    return res.json(user);
+  })
+  .patch((req, res) => {
+    const user = users.find(val => val.id === Number(req.params.id));
+    user.name = req.body.name;
+    return res.json({ message: "Updated" });
+  })
+  .delete((req, res) => {
+    const userIndex = users.findIndex(val => val.id === Number(req.params.id));
+    users.splice(userIndex, 1);
+    return res.json({ message: "Deleted" });
+  });
+
+});
+
+module.exports = router;
+```
 
 [↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
