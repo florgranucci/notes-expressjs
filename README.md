@@ -572,7 +572,7 @@ app.get('/magic', blackMagic);
 
 ### `next` y _custom middleware_
 
-`next` es una referencia a la siguiente función middleware. Al ser invocada, ejecuta el middleware que le sucede al actual. Vamos a llamar a `next` al final del middleware actual si queremos _pasarle el control a la siguiente función middleware_, sino, finaliza el ciclo y se envía la respuesta al cliente.
+**`next` es una referencia que utilizamos para _pasar el control_ a la siguiente función middleware (siempre y cuando la ruta coincida)**. Al ser invocada, ejecuta el middleware que le sucede al actual. Vamos a llamar a `next` al final del middleware actual si queremos _pasarle el control a la siguiente función middleware_, sino, finaliza el ciclo y se envía la respuesta al cliente.
 
 Express nos provee de algunos middlewares por default. También podemos encontrar otros como paquetes de `NPM`, o definir los nuestros propios (custom).
 
@@ -596,6 +596,8 @@ app.get('/', (req, res, next) => {
   // we don't call `next` here, so the cycle ends
 })
 ```
+
+👉 Algo importante a tener en cuenta siempre es que **el orden en el que definimos las rutas e invocamos el middleware es importante**. Si ubicamos `app.get` por encima del `app.use` el middleware nunca se va a ejecutar, es por esto que casi siempre incluímos el middleware antes de la lógica de routing.
 
 ### Usando middleware a través NPM
 
