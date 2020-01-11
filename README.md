@@ -544,7 +544,7 @@ Los usos más comunes incluyen
 - acceder a cierta info que nos proveen (o editar) los objetos `Request` y `Response`
 - chequear si un usuario está logueado
 - almacenar info en la DB
-- parsear info proveniendte del `body` del request
+- parsear info proveniente del `body` del request
 - etc
 
 👉**Podemos decir que `Express` es un framework integrado esencialmente por 2 cosas: Router y conjunto de funciones middleware**
