@@ -316,12 +316,12 @@ let id = 1; // this will help us identify unique users
 
 // instead of ´app.get´...
 router.get("/users", (req, res) => {
-  return res.json(users);
+  res.json(users);
 });
 
 router.get("/users/:id", (req, res) => {
   const user = users.find(val => val.id === Number(req.params.id));
-  return res.json(user);
+  res.json(user);
 });
 
 // instead of ´app.post´...
@@ -330,21 +330,21 @@ router.post("/users", (req, res) => {
     name: req.body.name,
     id: ++id
   });
-  return res.json({ message: "Created" });
+  res.json({ message: "Created" });
 });
 
 // instead of ´app.patch´...
 router.patch("/users/:id", (req, res) => {
   const user = users.find(val => val.id === Number(req.params.id));
   user.name = req.body.name;
-  return res.json({ message: "Updated" });
+  res.json({ message: "Updated" });
 });
 
 // instead of ´app.delete´...
 router.delete("/users/:id", (req, res) => {
   const userIndex = users.findIndex(val => val.id === Number(req.params.id));
   users.splice(userIndex, 1);
-  return res.json({ message: "Deleted" });
+  res.json({ message: "Deleted" });
 });
 
 // Now that we have built up all these routes - let's export this module for use in our app.js!
