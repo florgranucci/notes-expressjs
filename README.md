@@ -537,7 +537,7 @@ la segunda nunca será alcanzada.
 
 ## Middleware
 
-**Una función middleware es cualquier tipo de función que interceptan el proceso de _routing_ y tienen acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (`next`) en el _ciclo request-response_ de nuestra aplicación**. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. 
+**Una función middleware es _cualquier tipo de función_ que intercepta el proceso de _routing_ y tiene acceso al _objeto request_ (`req`), al _objeto response_ (`res`) y a la _siguiente función middleware_ (`next`) en el _ciclo request-response_ de nuestra aplicación**. Estas funciones hacen de _intermediarios_ en el ciclo request/response (de ahí el término _middleware_), con la finalidad de realizar algún tipo de operación en algún punto de esta cadena. 
 
 Los usos más comunes incluyen 
 
