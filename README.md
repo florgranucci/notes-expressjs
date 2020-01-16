@@ -526,7 +526,7 @@ app.get('/', (req, res) => res.send('Hello World!'));
 ```
 
 ```js
-app.get('/', (req, res) => res.send('Bye World!'));
+app.all('/', (req, res) => res.send('Bye World!'));
 ```
 
 la segunda nunca será alcanzada. 
@@ -595,6 +595,20 @@ app.get('/', (req, res, next) => {
   res.send('Hello, user!');
   // we don't call `next` here, so the cycle ends
 })
+```
+
+Otro ejemplo:
+
+```js
+function reqLogger(req, res, next) {
+ console.log(req)
+ next();
+}
+
+// Use `reqLogger` middleware
+app.use(reqLogger);
+
+app.get('/', (req, res, next) => res.send('Hello, world!'));
 ```
 
 👉 Algo importante a tener en cuenta siempre es que **el orden en el que definimos las rutas e invocamos el middleware es importante**. Si ubicamos `app.get` por encima del `app.use` el middleware nunca se va a ejecutar, es por esto que casi siempre incluímos el middleware antes de la lógica de routing.
