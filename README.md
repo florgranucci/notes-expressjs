@@ -654,6 +654,7 @@ Una aplicación Express puede utiilizar los siguientes tipos de _middleware_:
 - Error-handling middleware
 - Built-in middleware
 - Third-party middleware
+- Custom middleware
 
 [↑ Ir al inicio](https://github.com/undefinedschool/notes-expressjs/#contenido)
 
