@@ -649,7 +649,7 @@ La principal ventaja de utilizar _middleware_ en `Express` es la de modularizar 
 
 Una aplicación Express puede utiilizar los siguientes tipos de _middleware_:
 
-- Application-level middleware
+- Application-level middleware (también conocido como _Root-level_)
 - Router-level middleware
 - Error-handling middleware
 - Built-in middleware
